@@ -6,10 +6,16 @@ class Teacher(models.Model):
   last_name = models.CharField(max_length=50)
   middle_name = models.CharField(max_length=50)
 
+  def __str__(self):
+    return self.last_name
+
 class Subject(models.Model):
   subject_id = models.AutoField(primary_key=True)
   sub_name = models.CharField(max_length=100)
   teacher = models.ManyToManyField(Teacher, related_name='teacher')
+
+  def __str__(self):
+    return self.sub_name
 
 class Question(models.Model):
   question_id = models.AutoField(primary_key=True)
