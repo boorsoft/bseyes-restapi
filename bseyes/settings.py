@@ -26,7 +26,7 @@ SECRET_KEY = '905j=f2i4!@7($73c1p!uru9==r5ousz^ew^oa_!b3(gtwi&-s'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-  'bseyes--akmatoff.repl.co'
+  'bseyes-restapi--akmatoff.repl.co'
 ]
 
 
@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'restapi',
-    'rest_framework'
+    'rest_framework',
+    'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
