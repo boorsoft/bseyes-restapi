@@ -20,6 +20,14 @@ class Teacher(models.Model):
 class Question(models.Model):
   question_id = models.AutoField(primary_key=True)
   question_body = models.CharField(max_length=300)
+
+class Student(models.Model):
+  student_id = models.AutoField(primary_key=True)
+  student = models.CharField(max_length=200)
+  subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+
+  def __str__(self):
+    return self.student
   
 class Answer(models.Model):
   answer_id = models.AutoField(primary_key=True)
