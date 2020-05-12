@@ -1,4 +1,6 @@
 from rest_framework import routers
+from django.urls import path
+from . import views
 from .api import SubjectViewSet, TeacherViewSet, QuestionViewSet, AnswerViewSet, StudentViewSet
 
 router = routers.DefaultRouter()

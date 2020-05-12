@@ -32,11 +32,17 @@ class Student(models.Model):
 
   def __str__(self):
     return self.username
-  
+
+class Comment(models.Model):
+  comment_id = models.AutoField(primary_key=True)
+  teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+  subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+  comment = models.TextField()
+
+  def __str__(self):
+    return self.comment_id
+
 class Answer(models.Model):
   answer_id = models.AutoField(primary_key=True)
-  teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE) 
-  subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-  question = models.ForeignKey(Question, on_delete=models.CASCADE)
-  comment = models.TextField()
+  comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
   rate = models.IntegerField()
