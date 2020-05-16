@@ -44,5 +44,8 @@ class Comment(models.Model):
 
 class Answer(models.Model):
   answer_id = models.AutoField(primary_key=True)
-  comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+  question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True)
   rate = models.IntegerField()
+
+  def __str__(self):
+    return self.answer_id
