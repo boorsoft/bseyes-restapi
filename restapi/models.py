@@ -42,19 +42,12 @@ class Comment(models.Model):
   def __str__(self):
     return self.comment
 
-class Rate(models.Model):
-  rate_id = models.AutoField(primary_key=True)
-  rate = models.IntegerField()
-
-  def __str__(self):
-    return self.rate
-
 class Answer(models.Model):
   answer_id = models.AutoField(primary_key=True)
   teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
   subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
   question = models.ManyToManyField(Question)
-  rate = models.ForeignKey(Rate, on_delete=models.CASCADE)
+  rate = models.IntegerField(null=True)
   
   def __str__(self):
     return self.answer_id
