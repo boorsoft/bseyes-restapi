@@ -33,16 +33,6 @@ class Student(models.Model):
   def __str__(self):
     return self.username
 
-class Answer(models.Model):
-  answer_id = models.AutoField(primary_key=True)
-  question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True)
-  subject = models.ForeignKey(Subject, on_delete=models.CASCADE, null=True)
-  teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
-  rate = models.IntegerField()
-
-  def __str__(self):
-    return self.answer_id
-
 class Comment(models.Model):
   comment_id = models.AutoField(primary_key=True)
   teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
@@ -51,3 +41,20 @@ class Comment(models.Model):
 
   def __str__(self):
     return self.comment
+
+class Rate(models.Model):
+  rate_id = models.AutoField(primary_key=True)
+  rate = models.IntegerField()
+
+  def __str__(self):
+    return self.rate
+
+class Answer(models.Model):
+  answer_id = models.AutoField(primary_key=True)
+  teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+  subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+  question = models.ManyToManyField(Question)
+  rate = models.ForeignKey(Rate, on_delete=models.CASCADE)
+  
+  def __str__(self):
+    return self.answer_id
