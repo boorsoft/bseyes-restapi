@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class Subject(models.Model):
   subject_id = models.AutoField(primary_key=True)
@@ -38,6 +39,7 @@ class Comment(models.Model):
   teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
   subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
   comment = models.TextField()
+  create_date = models.DateTimeField(default=timezone.now())
 
   def __str__(self):
     return self.comment
@@ -48,6 +50,5 @@ class Answer(models.Model):
   subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
   question = models.ManyToManyField(Question)
   rate = models.IntegerField(null=True)
-  
-  def __str__(self):
-    return self.answer_id
+  create_date = models.DateTimeField(default=timezone.now())
+
