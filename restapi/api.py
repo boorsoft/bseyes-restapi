@@ -1,6 +1,6 @@
-from restapi.models import Subject, Teacher, Question, Student, Comment, Answer
+from restapi.models import Subject, Teacher, Question, Student, Comment, Answer, Rate
 from rest_framework import viewsets, permissions
-from .serializers import SubjectSerializer, TeacherSerializer, QuestionSerializer, StudentSerializer, CommentSerializer, AnswerSerializer
+from .serializers import SubjectSerializer, TeacherSerializer, QuestionSerializer, StudentSerializer, CommentSerializer, AnswerSerializer, RateSerializer
 
 class SubjectViewSet(viewsets.ModelViewSet):
   queryset = Subject.objects.all()
@@ -33,6 +33,13 @@ class StudentViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
   queryset = Comment.objects.all()
   serializer_class = CommentSerializer
+  permission_classes = [
+    permissions.IsAuthenticated
+  ]
+
+class RateViewSet(viewsets.ModelViewSet):
+  queryset = Rate.objects.all()
+  serializer_class = RateSerializer
   permission_classes = [
     permissions.IsAuthenticated
   ]
