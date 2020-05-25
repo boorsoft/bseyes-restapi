@@ -16,7 +16,7 @@ class Teacher(models.Model):
   subject = models.ManyToManyField(Subject, related_name="subject")
     
   def __str__(self):
-    return self.last_name
+    return self.last_name + " " + self.first_name
 
 class Question(models.Model):
   question_id = models.AutoField(primary_key=True)
@@ -44,11 +44,18 @@ class Comment(models.Model):
   def __str__(self):
     return self.comment
 
+class Rate(models.Model):
+  rate_id = models.AutoField(primary_key=True)
+  rate = models.IntegerField(unique=False)
+
+  def __str__(self):
+    return str(self.rate)
+
 class Answer(models.Model):
   answer_id = models.AutoField(primary_key=True)
   teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
   subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
   question = models.ManyToManyField(Question)
-  rate = models.IntegerField(null=True)
+  rate = models.ManyToManyField(Rate, unique=False)
   create_date = models.DateTimeField(default=timezone.now())
 
