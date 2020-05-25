@@ -50,6 +50,7 @@ class Rate(models.Model):
 
   def __str__(self):
     return str(self.rate)
+  rate = models.IntegerField()
 
 class Answer(models.Model):
   answer_id = models.AutoField(primary_key=True)
@@ -58,4 +59,3 @@ class Answer(models.Model):
   question = models.ManyToManyField(Question)
   rate = models.ManyToManyField(Rate, unique=False)
   create_date = models.DateTimeField(default=timezone.now())
-
