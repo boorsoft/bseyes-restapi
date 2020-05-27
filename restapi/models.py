@@ -39,23 +39,18 @@ class Comment(models.Model):
   teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
   subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
   comment = models.TextField()
-  create_date = models.DateTimeField(default=timezone.now())
+  create_date = models.DateTimeField(default=timezone.now)
 
   def __str__(self):
     return self.comment
-
-class Rate(models.Model):
-  rate_id = models.AutoField(primary_key=True)
-  rate = models.IntegerField(unique=False)
-
-  def __str__(self):
-    return str(self.rate)
 
 class Answer(models.Model):
   answer_id = models.AutoField(primary_key=True)
   teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
   subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
   question = models.ManyToManyField(Question)
-  rate = models.ManyToManyField(Rate, unique=False)
-  create_date = models.DateTimeField(default=timezone.now())
+  rate = models.CharField(max_length=100, blank=True)
+  create_date = models.DateTimeField(default=timezone.now)
 
+  def __str__(self):
+    return str(self.answer_id)
