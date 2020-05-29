@@ -34,6 +34,16 @@ class Student(models.Model):
   def __str__(self):
     return self.username
 
+class Comment(models.Model):
+  comment_id = models.AutoField(primary_key=True)
+  teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+  subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+  comment = models.TextField()
+  create_date = models.DateTimeField(default=timezone.now)
+
+  def __str__(self):
+    return self.comment
+
 class Answer(models.Model):
   answer_id = models.AutoField(primary_key=True)
   teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
