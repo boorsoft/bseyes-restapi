@@ -1,5 +1,6 @@
 from django.http import FileResponse, HttpResponseRedirect
-from .models import Answer
+from django.shortcuts import render
+from .models import Answer, Subject, Teacher
 from reportlab.platypus import SimpleDocTemplate, Paragraph, PageBreak
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfbase import pdfmetrics
@@ -7,7 +8,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from io import BytesIO
 
 # Answers 
-def results(request):
+def result(request):
   # fetch data
   answers = list(Answer.objects.all())
 
@@ -57,3 +58,25 @@ def results(request):
     return FileResponse(pdf_buffer, as_attachment=False, filename='results.pdf')
   else:
     return HttpResponseRedirect('login')
+
+def subjects(request):
+  subjects = Subject.objects.all()
+  teachers = Teacher.objects.all()
+
+  context = {
+    'subjects': subjects,
+    'teachers': teachers
+  }
+
+  return render(request, 'restapi/subjects.html', context)
+
+def teachers(request):
+  subjects = Subject.objects.all()
+  teachers = Teacher.objects.all()
+
+  context = {
+    'subjects': subjects,
+    'teachers': teachers
+  }
+
+  return render(request, 'restapi/teachers.html', context)
