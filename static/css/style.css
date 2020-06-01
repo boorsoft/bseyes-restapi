@@ -16,13 +16,13 @@ a {
     color: #222;
 }
 
-.results-container {
+.flex-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-.subject-container {
+.card-container {
     height: 80px;
     display: flex;
     justify-content: center;

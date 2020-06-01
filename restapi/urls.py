@@ -12,7 +12,6 @@ router.register('api/answers', AnswerViewSet, 'answers')
 
 urlpatterns = router.urls
 urlpatterns += [
-  path('admin/result/<int:id>', views.result, name='result'),
   path('admin/subjects/', views.subjects, name='subjects'),
-  path('admin/teachers/', views.teachers, name='teachers')
+  path('admin/subjects/<int:id>/teachers', views.teachers, name='teachers')
 ]

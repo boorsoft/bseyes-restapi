@@ -70,13 +70,24 @@ def subjects(request):
 
   return render(request, 'restapi/subjects.html', context)
 
-def teachers(request):
+def teachers(request, id):
   subjects = Subject.objects.all()
   teachers = Teacher.objects.all()
+  teachersSorted = []
+  teacherSubs = []
 
   context = {
     'subjects': subjects,
-    'teachers': teachers
+    'teachers': teachersSorted
   }
+  
+  i = 0
+
+  for teacher in teachers:
+      while i < len(teacher.subject.values()):
+          teacherSubs.append(teacher.subject.values()[i]['subject_id'])
+
+  print('TeacherSubs:', teacherSubs)
+  print('Teachers Sorted: ', teachersSorted)
 
   return render(request, 'restapi/teachers.html', context)
