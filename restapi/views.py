@@ -83,10 +83,6 @@ def teachers(request, id):
   
   i = 0
 
-  for teacher in teachers:
-      while i < len(teacher.subject.values()):
-          teacherSubs.append(teacher.subject.values()[i]['subject_id'])
-
   print('TeacherSubs:', teacherSubs)
   print('Teachers Sorted: ', teachersSorted)
 
