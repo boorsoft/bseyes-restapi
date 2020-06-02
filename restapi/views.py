@@ -72,18 +72,13 @@ def subjects(request):
 
 def teachers(request, id):
   subjects = Subject.objects.all()
-  teachers = Teacher.objects.all()
-  teachersSorted = []
-  teacherSubs = []
+  teachers = Teacher.objects.filter(subject = id)
 
   context = {
     'subjects': subjects,
-    'teachers': teachersSorted
+    'teachers': teachers
   }
-  
-  i = 0
 
-  print('TeacherSubs:', teacherSubs)
-  print('Teachers Sorted: ', teachersSorted)
+  print('Teachers Sorted: ', teachers)
 
   return render(request, 'restapi/teachers.html', context)

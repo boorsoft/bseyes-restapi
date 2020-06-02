@@ -3,5 +3,10 @@
 {% block title %} Преподаватели {% endblock %}
 
 {% block content %}
+<div class="flex-container">
+    {% for teacher in teachers %}
+        <a href=""><div class="card-container">{{teacher.first_name}} {{teacher.last_name}}</div></a>
+    {% endfor %}
+</div>
 
 {% endblock %}
