@@ -5,7 +5,7 @@
 {% block content %}
 <div class="flex-container">
     {% for teacher in teachers %}
-        <a href=""><div class="card-container">{{teacher.first_name}} {{teacher.last_name}}</div></a>
+        <a href="/admin/subjects/{{subject_id}}/teachers/{{teacher.teacher_id}}/result"><div class="card-container">{{teacher.first_name}} {{teacher.last_name}}</div></a>
     {% endfor %}
 </div>
 

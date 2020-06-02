@@ -1,5 +1,5 @@
 from django.http import FileResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Answer, Subject, Teacher
 from reportlab.platypus import SimpleDocTemplate, Paragraph, PageBreak
 from reportlab.lib.styles import getSampleStyleSheet
@@ -7,8 +7,35 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from io import BytesIO
 
+def subjects(request):
+  subjects = Subject.objects.all()
+
+  context = {
+    'subjects': subjects,
+  }
+
+  if request.user.is_authenticated:
+    return render(request, 'restapi/subjects.html', context)
+  else:
+    return HttpResponseRedirect('login')
+
+def teachers(request, id):
+  subjects = Subject.objects.all()
+  teachers = Teacher.objects.filter(subject = id)
+
+  context = {
+    'subjects': subjects,
+    'teachers': teachers,
+    'subject_id': id
+  }
+
+  if request.user.is_authenticated:
+    return render(request, 'restapi/teachers.html', context) 
+  else:
+    return HttpResponseRedirect('login')  
+
 # Answers 
-def result(request):
+def result(request, subject_id, teacher_id):
   # fetch data
   answers = list(Answer.objects.all())
 
@@ -48,9 +75,6 @@ def result(request):
     content.append(question)
     i += 1
 
-  # while n < len(rates):
-    # content.append(rates[n]) 
-
   results_doc.build(content)
   print(answers)
   pdf_buffer.seek(0)
@@ -58,27 +82,3 @@ def result(request):
     return FileResponse(pdf_buffer, as_attachment=False, filename='results.pdf')
   else:
     return HttpResponseRedirect('login')
-
-def subjects(request):
-  subjects = Subject.objects.all()
-  teachers = Teacher.objects.all()
-
-  context = {
-    'subjects': subjects,
-    'teachers': teachers
-  }
-
-  return render(request, 'restapi/subjects.html', context)
-
-def teachers(request, id):
-  subjects = Subject.objects.all()
-  teachers = Teacher.objects.filter(subject = id)
-
-  context = {
-    'subjects': subjects,
-    'teachers': teachers
-  }
-
-  print('Teachers Sorted: ', teachers)
-
-  return render(request, 'restapi/teachers.html', context)
