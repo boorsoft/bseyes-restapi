@@ -40,7 +40,7 @@ def result(request, subject_id, teacher_id):
   answers = Answer.objects.filter(subject=subject_id, teacher=teacher_id)
 
   pdf_buffer = BytesIO()
-  font = "static/fonts/OpenSans-Light.ttf"
+  font = "static/fonts/OpenSans-Regular.ttf"
   fontBold = "static/fonts/OpenSans-Bold.ttf"
   pdfmetrics.registerFont(TTFont('OpenSans', font))
   pdfmetrics.registerFont(TTFont('OpenSansBold', fontBold))
@@ -70,7 +70,7 @@ def result(request, subject_id, teacher_id):
   # 1 answer = 1 page
   for answer in answers:
     course = Paragraph('<font name="OpenSansBold">Курс</font> ' + answer.subject.sub_name, body_style)
-    teacher = Paragraph('<font name="OpenSansBold">Преподаватель</font> '+ answer.teacher.first_name + ' ' + answer.teacher.last_name, body_style)
+    teacher = Paragraph('<font name="OpenSansBold">Преподаватель</font> {} {}'.format(answer.teacher.last_name, answer.teacher.first_name), body_style)
     info = Paragraph('1 - Абсолютно не согласен, 5 - Полностью согласен', body_style)
     content.append(course)
     content.append(teacher)
@@ -85,7 +85,7 @@ def result(request, subject_id, teacher_id):
       content.append(question)
 
       for rate in rates:
-        rate = Paragraph(rate, body_style)
+        rate = Paragraph('<font name="OpenSansBold">Ответ:</font> ' + rate, body_style)
         content.append(rate)
         break
 

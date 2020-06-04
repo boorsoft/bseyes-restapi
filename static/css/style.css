@@ -50,11 +50,11 @@ a {
 .list-element {
     height: 35px;
     padding: 12px 5px;
-    transition: 0.7s ease-in;
 }
 
 .list-element a:hover {
     color: #417690;
+    transition: 0.2s ease;
 }
 
 .container {
