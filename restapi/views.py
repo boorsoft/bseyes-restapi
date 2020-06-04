@@ -1,5 +1,5 @@
 from django.http import FileResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .models import Answer, Subject, Teacher
 from reportlab.platypus import SimpleDocTemplate, Paragraph, PageBreak, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
@@ -66,6 +66,10 @@ def result(request, subject_id, teacher_id):
   space = Spacer(1, 20)
 
   q_num = 1
+  answer_num = 0
+  rate_num = 0
+
+  all_answer_rates = []
 
   # 1 answer = 1 page
   for answer in answers:
@@ -79,24 +83,26 @@ def result(request, subject_id, teacher_id):
     content.append(space)
 
     rates = answer.rate.split(",")
+    all_answer_rates.append(rates)
 
     for question in answer.question.all():
+      for rate in all_answer_rates[answer_num]:
+        rate = Paragraph('<font name="OpenSansBold">Ответ:</font> ' + all_answer_rates[answer_num][rate_num], body_style)
+ 
       question = Paragraph(str(q_num) + '. ' + question.question_body, body_style)
       content.append(question)
-
-      for rate in rates:
-        rate = Paragraph('<font name="OpenSansBold">Ответ:</font> ' + rate, body_style)
-        content.append(rate)
-        break
-
+      content.append(rate)
+      rate_num += 1
       q_num += 1
-
+    
     comment_heading = Paragraph('Комментарий: ', heading_style)
     comment = Paragraph(answer.comment, body_style)
     content.append(space)
     content.append(comment_heading)
     content.append(comment)
     q_num = 1
+    rate_num = 0
+    answer_num += 1
     content.append(page_break)
 
   results_doc.build(content)
