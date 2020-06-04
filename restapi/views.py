@@ -17,7 +17,7 @@ def subjects(request):
   if request.user.is_authenticated:
     return render(request, 'restapi/subjects.html', context)
   else:
-    return HttpResponseRedirect('login')
+    return HttpResponseRedirect('../login')
 
 def teachers(request, id):
   subjects = Subject.objects.all()
@@ -32,7 +32,7 @@ def teachers(request, id):
   if request.user.is_authenticated:
     return render(request, 'restapi/teachers.html', context) 
   else:
-    return HttpResponseRedirect('login')  
+    return HttpResponseRedirect('../../login')  
 
 # Answers 
 def result(request, subject_id, teacher_id):
@@ -104,4 +104,4 @@ def result(request, subject_id, teacher_id):
   if request.user.is_authenticated:
     return FileResponse(pdf_buffer, as_attachment=False, filename='results.pdf')
   else:
-    return HttpResponseRedirect('login')
+    return HttpResponseRedirect('../../../../login')
