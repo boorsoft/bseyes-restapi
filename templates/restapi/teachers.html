@@ -3,10 +3,14 @@
 {% block title %} Преподаватели {% endblock %}
 
 {% block content %}
+<div class="heading"><a href="../../">АДМИН ПАНЕЛЬ</a><span>АНКЕТИРОВАНИЕ</span></div>
 <div class="flex-container">
-    {% for teacher in teachers %}
-        <a href="/admin/subjects/{{subject_id}}/teachers/{{teacher.teacher_id}}/result"><div class="card-container">{{teacher.first_name}} {{teacher.last_name}}</div></a>
-    {% endfor %}
+    <div class="container">
+        <div class="info">Преподаватели</div>
+        {% for teacher in teachers %}
+            <div class="list-element"><a href="/admin/subjects/{{subject_id}}/teachers/{{teacher.teacher_id}}/result">{{teacher.first_name}} {{teacher.last_name}}</a></div>
+        {% endfor %}
+    </div>
 </div>
 
 {% endblock %}

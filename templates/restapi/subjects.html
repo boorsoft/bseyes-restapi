@@ -3,9 +3,14 @@
 {% block title %}Предметы{% endblock %}
 
 {% block content %}
-<div class="flex-contaner">
-    {% for subject in subjects %}
-    <a href="/admin/subjects/{{subject.subject_id}}/teachers"><div class="card-container">{{subject.sub_name}}</div></a>
-    {% endfor %}
+<div class="heading"><a href="../">АДМИН ПАНЕЛЬ</a><span>АНКЕТИРОВАНИЕ</span></div>
+<div class="flex-container">
+    
+    <div class="container">
+        <div class="info">Предметы</div>
+        {% for subject in subjects %}
+        <div class="list-element"><a href="/admin/subjects/{{subject.subject_id}}/teachers">{{subject.sub_name}}</a></div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Open Sans';
+    src: url(../fonts/OpenSans-Regular.ttf)
+}
+
 * {
     box-sizing: border-box;
 }
@@ -7,8 +12,7 @@ html, body {
     margin: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-items: center;
+    font-family: Open Sans;
 }
 
 a {
@@ -16,15 +20,54 @@ a {
     color: #222;
 }
 
+.heading {
+    width: 100%;
+    height: 50px;
+    background-color: #417690;
+    color: white;
+    font-weight: bold;
+    letter-spacing: 0.9px;
+    display: flex;
+    padding: 0 50px;
+    align-items: center;
+}
+
+.heading a {
+    color: white;
+}
+
+.heading span {
+    margin: auto;
+}
+
 .flex-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    width: 70%;
 }
 
-.card-container {
-    height: 80px;
+.list-element {
+    height: 35px;
+    padding: 12px 5px;
+    transition: 0.7s ease-in;
+}
+
+.list-element a:hover {
+    color: #417690;
+}
+
+.container {
+    width: 600px;
+    min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    padding: 50px;
+}
+
+.info {
+    background-color: #417690;
+    color: white;
+    height: 40px;
+    padding: 10px;
 }
