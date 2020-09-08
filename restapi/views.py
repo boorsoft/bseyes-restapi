@@ -25,6 +25,7 @@ class StudentAuthentication(ObtainAuthToken):
         'token': token.key,
         'student_id': student.student_id,
         'username': student.username,
+        'subject': student.subject
       }, status=status.HTTP_200_OK)
     else:
       return Response({
