@@ -55,3 +55,23 @@ class Answer(models.Model):
 
   def __str__(self):
     return str(self.answer_id)
+
+class StudentTokenModel(models.Model):
+  key = models.CharField("Key", max_length=40, primary_key=True)
+  student = models.OneToOneField(Student, on_delete=models.CASCADE, verbose_name="Student")
+  created = models.DateTimeField("Created", auto_now_add=True)
+
+  class Meta:
+    verbose_name = "Token"
+    verbose_name_plural = "Tokens"
+
+  def save(self, *args, **kwargs):
+    if not self.key:
+        self.key = self.generate_key()
+    return super(StudentTokenModel, self).save(*args, **kwargs)
+
+    def generate_key(self):
+      return secrets.token_hex(16)
+
+    def __str__(self):
+      return str(self.key)
