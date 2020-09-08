@@ -2,6 +2,7 @@ from django.http import FileResponse, HttpResponseRedirect
 from django.shortcuts import render
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
+from rest_framework import status
 from restapi.models import StudentTokenModel
 from .models import Answer, Subject, Teacher, Student
 from reportlab.platypus import SimpleDocTemplate, Paragraph, PageBreak, Spacer
@@ -11,17 +12,24 @@ from reportlab.pdfbase.ttfonts import TTFont
 from io import BytesIO
 import json
 
+# Custom authentication class for students
 class StudentAuthentication(ObtainAuthToken):
-
   def post(self, request):
-    data = json.loads(request.body)
-    student = Student.objects.get(username=data['username'])
-    token, created = StudentTokenModel.objects.get_or_create(student=student)
-    return Response({
-      'token': token.key,
-      'student_id': student.student_id,
-      'username': student.username,
-    })
+    data = json.loads(request.body) # parse JSON data from requests' body
+    student = Student.objects.get(username=data['username']) # Fetch student by username
+
+    if data['password'] == student.password:
+      token, created = StudentTokenModel.objects.get_or_create(student=student) # Generate or get token
+
+      return Response({
+        'token': token.key,
+        'student_id': student.student_id,
+        'username': student.username,
+      }, status=status.HTTP_200_OK)
+    else:
+      return Response({
+        'error': 'Wrong username or password'
+      }, status=status.HTTP_400_BAD_REQUEST)
 
 def subjects(request):
   subjects = Subject.objects.all()

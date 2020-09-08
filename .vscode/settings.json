@@ -1,4 +1,0 @@
-{
-    "python.pythonPath": "bseyes_env\\Scripts\\python.exe",
-    "python.formatting.provider": "black"
-}

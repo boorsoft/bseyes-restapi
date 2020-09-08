@@ -57,22 +57,26 @@ class Answer(models.Model):
   def __str__(self):
     return str(self.answer_id)
 
+# Custom Token Model
 class StudentTokenModel(models.Model):
-  key = models.CharField("Key", max_length=40, primary_key=True)
-  student = models.OneToOneField(Student, on_delete=models.CASCADE, verbose_name="Student")
+  key = models.CharField("Key", max_length=40, primary_key=True) # token key
+  student = models.OneToOneField(Student, on_delete=models.CASCADE, verbose_name="Student") # student reference
   created = models.DateTimeField("Created", auto_now_add=True)
 
   class Meta:
-    verbose_name = "Token"
+    verbose_name = "Token" # name to display
     verbose_name_plural = "Tokens"
 
+  # Generate and save key if doesn't exist
   def save(self, *args, **kwargs):
     if not self.key:
         self.key = self.generate_key()
     return super(StudentTokenModel, self).save(*args, **kwargs)
 
+  # Generate token key with secrets
   def generate_key(self):
     return secrets.token_hex(16)
 
+  # To display to admin panel
   def __str__(self):
     return str(self.key)
