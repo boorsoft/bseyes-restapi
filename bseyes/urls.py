@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.authtoken import views
+from restapi.views import StudentAuthentication
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('restapi.urls')), 
-    path('token-auth/', views.obtain_auth_token, name='token-auth'),
+    path('login/', StudentAuthentication.as_view(), name='login'),
 ]
 
 urlpatterns += [

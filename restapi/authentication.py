@@ -1,5 +1,5 @@
 from rest_framework.authentication import TokenAuthentication
 from restapi.models import StudentTokenModel
 
-class StudentTokenAthentication(TokenAuthentication):
+class StudentTokenAuthentication(TokenAuthentication):
     model = StudentTokenModel
