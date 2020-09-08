@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+import secrets
 
 class Subject(models.Model):
   subject_id = models.AutoField(primary_key=True)
@@ -70,8 +71,8 @@ class StudentTokenModel(models.Model):
         self.key = self.generate_key()
     return super(StudentTokenModel, self).save(*args, **kwargs)
 
-    def generate_key(self):
-      return secrets.token_hex(16)
+  def generate_key(self):
+    return secrets.token_hex(16)
 
-    def __str__(self):
-      return str(self.key)
+  def __str__(self):
+    return str(self.key)

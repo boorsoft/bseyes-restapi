@@ -1,8 +1,9 @@
 from django.http import FileResponse, HttpResponseRedirect
 from django.shortcuts import render
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token
-from .models import Answer, Subject, Teacher
+from rest_framework.response import Response
+from restapi.models import StudentTokenModel
+from .models import Answer, Subject, Teacher, Student
 from reportlab.platypus import SimpleDocTemplate, Paragraph, PageBreak, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfbase import pdfmetrics
@@ -15,7 +16,7 @@ class StudentAuthentication(ObtainAuthToken):
   def post(self, request):
     data = json.loads(request.body)
     student = Student.objects.get(username=data['username'])
-    token, created = Token.objects.get_or_create(user=student)
+    token, created = StudentTokenModel.objects.get_or_create(student=student)
     return Response({
       'token': token.key,
       'student_id': student.student_id,
