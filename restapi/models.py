@@ -59,7 +59,7 @@ class Answer(models.Model):
 # Custom Token Model
 class StudentTokenModel(models.Model):
   key = models.CharField("Key", max_length=100, primary_key=True) # token key
-  student = models.OneToOneField(Student, on_delete=models.CASCADE, verbose_name="Student", related_name='students') # student reference
+  student = models.OneToOneField(Student, on_delete=models.CASCADE, verbose_name="Student") # student reference
   created = models.DateTimeField("Created", auto_now_add=True)
 
   class Meta:
