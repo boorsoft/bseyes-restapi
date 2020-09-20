@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import SubjectSerializer, TeacherSerializer, QuestionSerializer, StudentSerializer, AnswerSerializer
 
-
 class SubjectView(APIView):
   def get(self, request, format=None):
     student_token_model = StudentTokenModel.objects.all()
@@ -55,7 +54,7 @@ class StudentViewSet(viewsets.ModelViewSet):
     permissions.IsAdminUser
   ]
 
-class AnswerViewSet(viewsets.ModelViewSet):
+class AnswerView(APIView):
   def get(self, request, format=None):
     student_token_model = StudentTokenModel.objects.all()
     tokens = []
@@ -73,12 +72,23 @@ class AnswerViewSet(viewsets.ModelViewSet):
       return Response({'error': 'Invalid token, or no token provided.'});
 
   def post(self, request, format=None):
-    serializer = AnswerSerializer(data=request.data)
-    if serializer.is_valid():
-      serializer.save()
-      return Response(serializer.data, status=status.HTTP_201_CREATED)
+    student_token_model = StudentTokenModel.objects.all()
+    tokens = []
+
+    for el in student_token_model:
+      tokens.append(el.key)
+  
+    auth = request.headers.get('Authorization')
+
+    if str(auth).strip('Token ') in tokens:
+      serializer = AnswerSerializer(data=request.data)
+      if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+      else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
-      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+      return Response({'error': 'Invalid token, or no token provided.'})
 
 # class AnswerViewSet(viewsets.ModelViewSet):
 #   queryset = Answer.objects.all()
