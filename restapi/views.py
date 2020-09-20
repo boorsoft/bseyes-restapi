@@ -17,15 +17,14 @@ class StudentAuthentication(ObtainAuthToken):
   def post(self, request):
     data = json.loads(request.body) # parse JSON data from requests' body
     student = Student.objects.get(username=data['username']) # Fetch student by username
-
+    
     if data['password'] == student.password:
       token, created = StudentTokenModel.objects.get_or_create(student=student) # Generate or get token
-
+     
       return Response({
         'token': token.key,
         'student_id': student.student_id,
         'username': student.username,
-        'subject': student.subject
       }, status=status.HTTP_200_OK)
     else:
       return Response({

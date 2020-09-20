@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 import secrets
 
 class Subject(models.Model):
@@ -30,7 +29,7 @@ class Student(models.Model):
   student_id = models.AutoField(primary_key=True)
   username = models.CharField(max_length=50, null=True)
   password = models.CharField(max_length=100, null=True)
-  subject = models.ManyToManyField(Subject)
+  subject = models.ManyToManyField(Subject, related_name='subjects')
 
   def __str__(self):
     return self.username
@@ -40,7 +39,7 @@ class Comment(models.Model):
   teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
   subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
   comment = models.TextField()
-  create_date = models.DateTimeField(default=timezone.now)
+  create_date = models.DateTimeField(auto_now_add=True)
 
   def __str__(self):
     return self.comment
@@ -52,20 +51,20 @@ class Answer(models.Model):
   question = models.ManyToManyField(Question)
   rate = models.CharField(max_length=100, blank=True)
   comment = models.TextField(blank=True)
-  create_date = models.DateTimeField(default=timezone.now)
+  create_date = models.DateTimeField(auto_now_add=True)
 
   def __str__(self):
     return str(self.answer_id)
 
 # Custom Token Model
 class StudentTokenModel(models.Model):
-  key = models.CharField("Key", max_length=40, primary_key=True) # token key
-  student = models.OneToOneField(Student, on_delete=models.CASCADE, verbose_name="Student") # student reference
+  key = models.CharField("Key", max_length=100, primary_key=True) # token key
+  student = models.OneToOneField(Student, on_delete=models.CASCADE, verbose_name="Student", related_name='students') # student reference
   created = models.DateTimeField("Created", auto_now_add=True)
 
   class Meta:
-    verbose_name = "Token" # name to display
-    verbose_name_plural = "Tokens"
+    verbose_name = "Student Token" # name to display
+    verbose_name_plural = "Student Tokens"
 
   # Generate and save key if doesn't exist
   def save(self, *args, **kwargs):
