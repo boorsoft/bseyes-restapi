@@ -20,11 +20,22 @@ class StudentAuthentication(ObtainAuthToken):
     
     if data['password'] == student.password:
       token, created = StudentTokenModel.objects.get_or_create(student=student) # Generate or get token
-     
+      subject = student.subject.all()
+      subjects = []
+      for sub in subject:
+        subject_id = sub.subject_id
+        sub_name = sub.sub_name
+
+        subjects.append({
+          'subject_id': subject_id,
+          'sub_name': sub_name
+        });
+
       return Response({
         'token': token.key,
         'student_id': student.student_id,
         'username': student.username,
+        'subject': subjects
       }, status=status.HTTP_200_OK)
     else:
       return Response({
