@@ -1,8 +1,7 @@
 from restapi.models import Subject, Teacher, Question, Student, Answer, StudentTokenModel
-from rest_framework import viewsets, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, viewsets, permissions
 from .serializers import SubjectSerializer, TeacherSerializer, QuestionSerializer, StudentSerializer, AnswerSerializer
 
 class SubjectView(APIView):
@@ -40,20 +39,28 @@ class TeacherView(APIView):
       return Response({'error': 'Invalid token, or no token provided.'});
 
 
-class QuestionViewSet(viewsets.ModelViewSet):
-  queryset = Question.objects.all()
-  serializer_class = QuestionSerializer
-  permission_classes = [
-    permissions.IsAuthenticatedOrReadOnly
-  ]
+class QuestionView(APIView):
+  def get(self, request, format=None):
+    student_token_model = StudentTokenModel.objects.all()
+    tokens = []
 
-class StudentViewSet(viewsets.ModelViewSet):
+    for el in student_token_model:
+      tokens.append(el.key)
+  
+    auth = request.headers.get('Authorization')
+
+    if str(auth).strip('Token ') in tokens:
+      queryset = Question.objects.all()
+      serializer_class = QuestionSerializer(queryset, many=True)
+      return Response(serializer_class.data)
+    else:
+      return Response({'error': 'Invalid token, or no token provided.'});
+  
+class StudentView(viewsets.ModelViewSet):
   queryset = Student.objects.all()
   serializer_class = StudentSerializer
-  permission_classes = [
-    permissions.IsAdminUser
-  ]
-
+  permission_classes = [permissions.IsAdminUser]
+ 
 class AnswerView(APIView):
   def get(self, request, format=None):
     student_token_model = StudentTokenModel.objects.all()
@@ -89,12 +96,3 @@ class AnswerView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
       return Response({'error': 'Invalid token, or no token provided.'})
-
-# class AnswerViewSet(viewsets.ModelViewSet):
-#   queryset = Answer.objects.all()
-#   serializer_class = AnswerSerializer
-#   permission_classes = [
-#     permissions.IsAuthenticated
-#   ]
-
-
